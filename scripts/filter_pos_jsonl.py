@@ -63,8 +63,20 @@ def filter_jsonl_by_pos_prob(input_path, output_path, threshold):
 if __name__ == "__main__":
     # input_file = "text_zh_pred_json.txt"  # 替换为您的输入文件路径
     # output_file = "filtered_output.jsonl"  # 替换为您的输出文件路径
-    input_file, output_file, threshold_value = sys.argv[1:]
+    input_path, output_path, threshold_value = sys.argv[1:]
     threshold_value = float(threshold_value)
     # threshold_value = 0.5  # 替换为您的阈值，例如0.5
 
-    filter_jsonl_by_pos_prob(input_file, output_file, threshold_value)
+    input_p = Path(input_path)
+    output_p = Path(output_path)
+
+    # 如果输入是目录，遍历处理目录下所有jsonl文件
+    if input_p.is_dir():
+        output_p.mkdir(parents=True, exist_ok=True)
+        for jsonl_file in input_p.glob("*.jsonl"):
+            output_file = output_p / jsonl_file.name
+            print(f"处理文件: {jsonl_file} -> {output_file}")
+            filter_jsonl_by_pos_prob(str(jsonl_file), str(output_file), threshold_value)
+    else:
+        # 单文件处理
+        filter_jsonl_by_pos_prob(input_path, output_path, threshold_value)
