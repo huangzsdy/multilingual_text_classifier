@@ -1,0 +1,29 @@
+ [model_config]
+    model_name =  "${MODEL_NAME}"
+    num_labels =  2
+    lang = "${LANG:-zh}" # 默认是zh
+
+ [data_config]
+    max_length = 512
+    test_size = 0.2 
+    random_seed = 42
+    positive_sample_configs = [
+         "-1 content /data/multilingual_projects/trainning_data/${LANG}/filtered_result/train_pos.jsonl"]
+
+    negative_sample_configs = [
+         "-1 content /data/multilingual_projects/trainning_data/${LANG}/filtered_result/train_neg_target.jsonl"]
+  [training_config]
+    output_dir = "${OUTPUT_DIR}"
+    num_train_epochs = 3 
+    per_device_train_batch_size = 8 
+    per_device_eval_batch_size = 8 
+    warmup_steps = 500 
+    weight_decay = 0.01 
+    learning_rate = 2e-5 
+    logging_dir = "./logs" 
+    eval_strategy = "epoch" 
+    save_strategy = "epoch" 
+    save_total_limit = 2 
+    load_best_model_at_end = true 
+    metric_for_best_model = "accuracy"
+

@@ -1,0 +1,2 @@
+{"content": "这是一个正样本文本", "id": 1, "metadata": {"source": "test"}}
+{"content": "这是一个负样本文本", "id": 2, "metadata": {"source": "test"}}
